@@ -5,16 +5,16 @@ import { FcInspection, FcExport } from "react-icons/fc";
 function App() {
   const [list, setList] = useState([])
   const [task, setTask] = useState("")
-
   function getText(event) {
 
     setTask(event.target.value)
   }
-  function addTask() {
+  function addTask(event) {
     if (task) {
       setList([...list, { id: uuid(), task, isconcluded: false }])
-
+      setTask(event.target.value='')
     }
+   
   }
   function finiched(id) {
     const newlist = list.map(item =>
@@ -28,6 +28,7 @@ function App() {
         return item
       }
     })
+    
     setList(newlist)
   }
 
@@ -35,7 +36,7 @@ function App() {
     <Container>
       <Section>
         <header>
-          <Input onChange={getText} type="text" placeholder="Oque tem para fazer..." />
+          <Input value={task} onChange={getText} type="text" placeholder="Oque tem para fazer..." />
           <Button onClick={addTask}>Adicionar</Button>
         </header>
         {
@@ -43,7 +44,7 @@ function App() {
             list.map(item => (
               <Li key={item.id} conclued={item.isconcluded}>
                 <FcInspection className='icons' onClick={() => finiched(item.id)} />
-                <ContainerText> {item.task}</ContainerText>
+                <ContainerText > {item.task}</ContainerText>
                 <FcExport className='icons' onClick={() => detailed(item.id)} />
               </Li>
             )))
